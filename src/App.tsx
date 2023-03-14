@@ -141,32 +141,6 @@ function App() {
         </AppShell>
       </MemoryRouter>
     </MantineProvider>
-    // <div className="container">
-    //   <h1>Login</h1>
-
-    //   <div className="row">
-    //     <input placeholder="Enter username"/>
-    //   </div>
-
-    //   <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-    //   <div className="row">
-    //     <form
-    //       onSubmit={(e) => {
-    //         e.preventDefault();
-    //         greet();
-    //       }}
-    //     >
-    //       <input
-    //         id="greet-input"
-    //         onChange={(e) => setName(e.currentTarget.value)}
-    //         placeholder="Enter a name..."
-    //       />
-    //       <button type="submit">Greet</button>
-    //     </form>
-    //   </div>
-    //   <p>{greetMsg}</p>
-    // </div>
   );
 }
 
