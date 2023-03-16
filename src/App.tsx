@@ -37,7 +37,7 @@ function App() {
   const [opened, setOpened] = useState(false);
   const defaultColorScheme = "dark";
   const [colorScheme, setColorScheme] = useState(defaultColorScheme);
-  const [greetMsg, setGreetMsg] = useState("defa ult");
+  const [greetMsg, setGreetMsg] = useState("default");
   const [name, setName] = useState("");
 
   const toggleColorScheme = (value: string) => {
@@ -74,7 +74,7 @@ function App() {
 
   return (
     <MantineProvider
-      theme={{ colorScheme: "dark", fontFamily: "Open Sans, sans serif" }}
+      theme={{ colorScheme: colorScheme, fontFamily: "Open Sans, sans serif" }}
       withGlobalStyles
     >
       <MemoryRouter>
