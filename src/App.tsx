@@ -11,12 +11,13 @@ import {
   ActionIcon,
   Group,
 } from "@mantine/core";
-import { MantineProvider } from "@mantine/core";
+import { MantineProvider, useMantineColorScheme } from "@mantine/core";
 import { SunIcon, MoonIcon } from "@radix-ui/react-icons";
 import { createStyles, useMantineTheme } from "@mantine/styles";
 import "./App.css";
 import Home from "./components/Home";
 import Settings from "./components/Settings";
+import { useLocalForage } from './../src-tauri/util'
 
 import { MemoryRouter, NavLink, Route, Routes } from "react-router-dom";
 
@@ -36,14 +37,16 @@ function App() {
   ];
   const [opened, setOpened] = useState(false);
   const defaultColorScheme = "dark";
-  const [colorScheme, setColorScheme] = useState(defaultColorScheme);
+  //const [colorScheme, setColorScheme] = useState(defaultColorScheme);
+  const {colorScheme, toggleColorScheme} = useMantineColorScheme();
   const [greetMsg, setGreetMsg] = useState("default");
   const [name, setName] = useState("");
 
-  const toggleColorScheme = (value: string) => {
-    const newValue = value || (colorScheme === 'dark' ? 'light' : 'dark');
-    setColorScheme(newValue);
-  };
+  // const toggleColorScheme = (value: string) => {
+  //   const newValue = value || (colorScheme === 'dark' ? 'light' : 'dark');
+  //   setColorScheme(newValue);
+  // };
+  const [FootersSeen, setFootersSeen, footersSeenLoading] = useLocalForage('footer')
 
   const useStyles = createStyles((theme) => ({
     navLink: {

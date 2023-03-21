@@ -7,8 +7,8 @@ import localforage from 'localforage';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 // tauri-store docs: https://github.com/tauri-apps/tauri-plugin-store/blob/dev/webview-src/index.ts
 import { Store } from 'tauri-plugin-store-api';
-import packageJson from '../../package.json';
-import tauriConfJson from '../../src-tauri/tauri.conf.json';
+import packageJson from '../package.json';
+import tauriConfJson from './tauri.conf.json';
 export { localforage };
 
 export const HEADER_TITLE = 'HEADER_TITLE goes here';
