@@ -1,6 +1,8 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/tauri";
+import { useTranslation } from "react-i18next";
+import { defaultLng, translations } from './i18n';
 import {
   AppShell,
   Navbar,
