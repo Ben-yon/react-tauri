@@ -2,7 +2,7 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/tauri";
 import { useTranslation } from "react-i18next";
-import { defaultLng, translations } from './i18n';
+import i18n, { defaultLng, translations } from './i18n';
 import {
   AppShell,
   Navbar,
@@ -21,6 +21,7 @@ import Home from "./components/Home";
 import Settings from "./components/Settings";
 
 import { MemoryRouter, NavLink, Route, Routes } from "react-router-dom";
+import { getItem } from "localforage";
 
 function App() {
   const views = [
@@ -39,13 +40,19 @@ function App() {
   const [opened, setOpened] = useState(false);
   const defaultColorScheme = "dark";
   const [colorScheme, setColorScheme] = useState(defaultColorScheme);
-  const [greetMsg, setGreetMsg] = useState("default");
   const [name, setName] = useState("");
 
+  const [ lang, setLang ] = useState(i18n.resolvedLanguage);
+  const [mobileNavOpened, setMobileNavOpened] = useState(false);
   const toggleColorScheme = (value: string) => {
     const newValue = value || (colorScheme === 'dark' ? 'light' : 'dark');
     setColorScheme(newValue);
   };
+
+  useEffect(()=> {
+    getItem('colorScheme', setColorScheme, defaultColorScheme),
+    getItem('lang', setLang, defaultLng)
+  }, [])
 
   const useStyles = createStyles((theme) => ({
     navLink: {
