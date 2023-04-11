@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState , } from "react";
 import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/tauri";
 import { useTranslation } from "react-i18next";
-import i18n, { defaultLng, translations } from './i18n';
+import { defaultLng, translations } from './i18n';
 import {
   AppShell,
   Navbar,
@@ -12,6 +12,7 @@ import {
   Burger,
   ActionIcon,
   Group,
+  Anchor,
 } from "@mantine/core";
 import { MantineProvider } from "@mantine/core";
 import { SunIcon, MoonIcon } from "@radix-ui/react-icons";
@@ -21,7 +22,7 @@ import Home from "./components/Home";
 import Settings from "./components/Settings";
 
 import { MemoryRouter, NavLink, Route, Routes } from "react-router-dom";
-import { getItem } from "localforage";
+import localforage, { getItem } from "localforage";
 
 function App() {
   const views = [
@@ -37,6 +38,7 @@ function App() {
       component: Settings,
     },
   ];
+  const { t, i18n } = useTranslation()
   const [opened, setOpened] = useState(false);
   const defaultColorScheme = "dark";
   const [colorScheme, setColorScheme] = useState(defaultColorScheme);
@@ -47,12 +49,24 @@ function App() {
   const toggleColorScheme = (value: string) => {
     const newValue = value || (colorScheme === 'dark' ? 'light' : 'dark');
     setColorScheme(newValue);
+    localforage.setItem('colorScheme', newValue);
   };
+  function getItems(key: string, stateSetter, defaultValue: string){
+    localforage.getItem(key).then(value => stateSetter(value)).catch(_ => {
+      stateSetter(defaultValue);
+      localforage.setItem(key, defaultValue)
+    })
+  }
 
   useEffect(()=> {
     getItem('colorScheme', setColorScheme, defaultColorScheme),
     getItem('lang', setLang, defaultLng)
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    localforage.setItem(lang, lang);
+    i18n.changeLanguage(lang);
+  }, [lang]);
 
   const useStyles = createStyles((theme) => ({
     navLink: {
@@ -72,6 +86,13 @@ function App() {
       backgroundColor:
         colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1],
     },
+    headerWrapper: {
+      display: 'flex',
+      alignItems: 'center'
+    },
+    headerRightItems: {
+      marginLeft: 'auto'
+    }
   }));
 
   const { classes } = useStyles();
@@ -81,6 +102,17 @@ function App() {
     setGreetMsg(await invoke("greet", { name }));
   }
 
+  function getLanguageHeaders(){
+    return Object.keys(translations).map((supportedLang, index) => {
+      <>
+      {
+        lang === supportedLang ?
+        <Text>{supportedLang.toUpperCase()}</Text>:
+        <Anchor onClick={() => setLang(supportedLang)}>{supportedLang.toUpperCase()}</Anchor>
+      }
+      </>
+    })
+  }
   return (
     <MantineProvider
       theme={{ colorScheme: colorScheme, fontFamily: "Open Sans, sans serif" }}
@@ -114,11 +146,7 @@ function App() {
           header={
             <Header height={70} padding="md ">
               <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  height: "100%",
-                }}
+                className={classes.headerWrapper}
               >
                 <MediaQuery largerThan="sm" styles={{ display: "none" }}>
                   <Burger
@@ -130,11 +158,12 @@ function App() {
                   />
                 </MediaQuery>
                 <Text>R2=T2: Modern T2 Tax Filling</Text>
-                <div style={{ marginLeft: "auto"}}>
+                <Group className={classes.headerRightItems}>
+                  {getLanguageHeaders()}
                   <ActionIcon variant="default" onClick={()=> toggleColorScheme('')} size={30}>
                     {colorScheme === 'dark'? <SunIcon/> : <MoonIcon/>}
                   </ActionIcon>
-                </div>
+                </Group>
               </div>
             </Header>
           }

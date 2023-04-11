@@ -1,9 +1,7 @@
 function Settings(){
   const msg = "Settings is good for life"
   return (
-    <div>
-      <p>{msg   }</p>
-    </div>
+      <p>{msg}</p>
   )
 }
 
