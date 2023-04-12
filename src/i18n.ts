@@ -26,6 +26,9 @@ export const translations = {
       'Installing update v{{ v }}': 'Installation de la mise à jour v{{ v }}',
       'Will relaunch afterwards': 'Relancera ensuite'
     }
+  },
+  de: {
+    translations: {}
   }
 }
 

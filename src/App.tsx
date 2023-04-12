@@ -42,7 +42,7 @@ function App() {
   const [opened, setOpened] = useState(false);
   const defaultColorScheme = "dark";
   const [colorScheme, setColorScheme] = useState(defaultColorScheme);
-  const [name, setName] = useState("");
+  // const [name, setName] = useState("");
 
   const [ lang, setLang ] = useState(i18n.resolvedLanguage);
   const [mobileNavOpened, setMobileNavOpened] = useState(false);
@@ -97,21 +97,22 @@ function App() {
 
   const { classes } = useStyles();
 
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }));
-  }
+  // async function greet() {
+  //   // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
+  //   setGreetMsg(await invoke("greet", { name }));
+  // }
 
   function getLanguageHeaders(){
-    return Object.keys(translations).map((supportedLang, index) => {
+    return Object.keys(translations).map((supportedLang, index) =>
       <>
       {
         lang === supportedLang ?
         <Text>{supportedLang.toUpperCase()}</Text>:
         <Anchor onClick={() => setLang(supportedLang)}>{supportedLang.toUpperCase()}</Anchor>
       }
+      <Text>{index < Object.keys(translations).length - 1 && '|'}</Text>
       </>
-    })
+    )
   }
   return (
     <MantineProvider
@@ -160,7 +161,7 @@ function App() {
                 <Text>R2=T2: Modern T2 Tax Filling</Text>
                 <Group className={classes.headerRightItems}>
                   {getLanguageHeaders()}
-                  <ActionIcon variant="default" onClick={()=> toggleColorScheme('')} size={30}>
+                  <ActionIcon variant="default" onClick={()=> toggleColorScheme()} size={30}>
                     {colorScheme === 'dark'? <SunIcon/> : <MoonIcon/>}
                   </ActionIcon>
                 </Group>
