@@ -1,4 +1,4 @@
-import { useEffect, useState , } from "react";
+import { Component, useEffect, useState , } from "react";
 import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/tauri";
 import { useTranslation } from "react-i18next";
@@ -20,6 +20,7 @@ import { createStyles, useMantineTheme } from "@mantine/styles";
 import "./App.css";
 import Home from "./components/Home";
 import Settings from "./components/Settings";
+import ExampleView from "./components/ExampleView";
 
 import { MemoryRouter, NavLink, Route, Routes } from "react-router-dom";
 import localforage, { getItem } from "localforage";
@@ -37,7 +38,14 @@ function App() {
       name: "Settings",
       component: Settings,
     },
+    {
+      path: 'example-view',
+      name: 'Example-View',
+      component: ExampleView
+    }
   ];
+
+
   const { t, i18n } = useTranslation()
   const [opened, setOpened] = useState(false);
   const defaultColorScheme = "dark";
